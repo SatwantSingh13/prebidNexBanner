@@ -1,0 +1,9 @@
+{
+  "name": "nexbid-prebid-adapter",
+  "version": "0.1.0",
+  "private": true,
+  "description": "NexBid bidder adapter and renderer for Prebid.js testing.",
+  "scripts": {
+    "check": "node --check src/nexbidBidAdapter.js && node --check public/prebid-renderer.js && node --check functions/api/v1/prebid/bid.js"
+  }
+}
