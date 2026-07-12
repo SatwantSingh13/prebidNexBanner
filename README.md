@@ -17,6 +17,7 @@ This repository contains the NexBid client-side bidder adapter package for submi
 - `docs/prebid-org-nexbid.md` - proposed `prebid.github.io` bidder page.
 - `functions/api/v1/prebid/bid.js` - Cloudflare gateway endpoint.
 - `public/prebid-renderer.js` - NexBanner creative renderer for buyer-backed production bids.
+- `docs/version-1-script.md` - Version 1 Prebid/OpenWrap and GAM creative entry points.
 
 ## Commercial integrity
 
@@ -44,5 +45,6 @@ gulp build --modules=nexbidBidAdapter
 1. Deploy the gateway function at `/api/v1/prebid/bid` with POST and OPTIONS support.
 2. Configure `NEXBID_PREBID_AUCTION_URL` to a real buyer-backed auction service before production traffic.
 3. Store any backend token only in `NEXBID_PREBID_AUCTION_TOKEN`; never place it in publisher parameters or source control.
-4. Deploy `/nexbanner/prebid-renderer.js` as JavaScript before returning production creatives that reference it.
+4. Deploy the renderer at the neutral public path `/nbx/render-v1.js` before returning production creatives that reference it.
 5. Activate and monitor the group mailbox `prebid@nexbid.uk` before opening the Prebid pull request.
+
