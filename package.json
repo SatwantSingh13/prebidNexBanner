@@ -5,7 +5,8 @@
   "type": "module",
   "description": "NexBid client-side bidder adapter package for Prebid.js submission.",
   "scripts": {
-    "check": "node --check modules/nexbidBidAdapter.js && node --check public/prebid-renderer.js && node --check functions/api/v1/prebid/bid.js",
-    "test:gateway": "node --test test/server/prebidBidEndpoint.test.js"
+    "check": "node --check modules/nexbidBidAdapter.js && node --check public/prebid-renderer.js && node --check functions/api/v1/prebid/bid.js && node --check functions/api/v1/prebid/auction.js",
+    "test:gateway": "node --test test/server/*.test.js"
   }
 }
+

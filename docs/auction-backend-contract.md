@@ -89,3 +89,16 @@ The token is optional at runtime but strongly recommended for production. It is 
 - Return renderable banner markup in `ad`.
 - Respect the request timeout, privacy values, supply chain and publisher authorization.
 - Never return the dedicated static test creative for a production publisher ID.
+
+## Temporary HTTP ORTB bridge
+
+For a demand endpoint that does not yet support TLS, the public gateway points to the HTTPS bridge at `/api/v1/prebid/auction`. The bridge then calls the private `NEXBID_ORTB_URL` server-to-server. It sends contextual inventory only and deliberately excludes user IDs, IP addresses, user agents and consent strings from the unencrypted request.
+
+```text
+NEXBID_PREBID_AUCTION_URL=https://nexbid.uk/api/v1/prebid/auction
+NEXBID_ORTB_URL=http://srv.nextbidsrv.com/rtb/4007368635/7508263787
+NEXBID_PREBID_AUCTION_TOKEN=<shared secret>
+```
+
+This is a testing bridge, not the preferred production transport. The upstream provider must enable HTTPS before personal data or production-scale traffic is sent.
+
