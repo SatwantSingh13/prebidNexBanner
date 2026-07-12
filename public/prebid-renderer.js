@@ -84,7 +84,7 @@
   function playerPath(data) {
     return data.productVersion === 2
       ? "/nexbanner/version-2-testing/src/nexbanner-player.js"
-      : "/nexbanner/final/src/nexbanner-player.js";
+      : "/nbx/player-v1.js";
   }
 
   function track(data, event, extra) {
@@ -106,3 +106,4 @@
     return String(value || "").replace(/\/+$/, "");
   }
 })();
+
