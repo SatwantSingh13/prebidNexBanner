@@ -52,3 +52,6 @@ Publisher page
 ```
 
 The test flag does not produce a bid for production publisher IDs.
+
+The stable Version 1 renderer is `https://nexbid.uk/nbx/render-v1.js`. The separate one-line GAM creative tag is documented in `docs/version-1-script.md`; it runs after GAM and is not a substitute for the Prebid/OpenWrap bidder entry.
+
