@@ -49,11 +49,12 @@
       apiBase: data.apiBase || "https://nexbid.uk",
       width: data.width || 300,
       height: data.height || 250,
-      rotationMode: "realtime-viewable-bidding",
-      mode: "video-first",
+      rotationMode: data.productVersion === 2
+        ? "realtime-viewable-bidding"
+        : "version-1-viewable-rotation",
+      mode: data.mode || "video-first",
       trackUrl: trimSlash(data.apiBase || "https://nexbid.uk") + "/api/v1/track",
       logoText: "N",
-      clickUrl: "https://nexbid.uk",
       timeoutMs: 1800
     };
 
@@ -65,7 +66,7 @@
 
     var player = document.createElement("script");
     player.async = true;
-    player.src = trimSlash(data.apiBase || "https://nexbid.uk") + "/nexbanner/version-2-testing/src/nexbanner-player.js";
+    player.src = trimSlash(data.apiBase || "https://nexbid.uk") + playerPath(data);
     player.onload = function () {
       if (window.NexBannerPlayer && window.NexBannerPlayer.mount) {
         window.NexBannerPlayer.mount(target, config);
@@ -78,6 +79,12 @@
       track(data, "prebid_render_error", { reason: "player_load_failed" });
     };
     document.head.appendChild(player);
+  }
+
+  function playerPath(data) {
+    return data.productVersion === 2
+      ? "/nexbanner/version-2-testing/src/nexbanner-player.js"
+      : "/nbx/player-v1.js";
   }
 
   function track(data, event, extra) {
@@ -99,3 +106,4 @@
     return String(value || "").replace(/\/+$/, "");
   }
 })();
+

@@ -1,63 +1,57 @@
-# Publisher Setup: NexBid Prebid Adapter
+# Publisher Setup: NexBid Prebid.js Adapter
 
-## Publisher Requirements
+## Requirements
 
-The publisher must already run Prebid.js or agree to add NexBid into the page header bidding wrapper.
+The publisher must run a Prebid.js build that contains `nexbidBidAdapter` or use an OpenWrap profile in which PubMatic has enabled the released NexBid module.
 
-Required GAM setup:
+Required GAM integration:
 
-- Prebid key-values: `hb_bidder`, `hb_pb`, `hb_adid`, `hb_size`
-- Prebid line items for the relevant CPM buckets
-- Prebid universal creative or equivalent render support
+- Standard Prebid targeting, including `hb_bidder`, `hb_pb`, `hb_adid` and `hb_size`.
+- Price-bucket line items or the publisher's existing Prebid line-item structure.
+- Prebid Universal Creative or equivalent rendering support.
 
-## NexBid Bidder Params
+## Bidder parameters
 
-```js
+```javascript
 {
   bidder: 'nexbid',
   params: {
     publisherId: '2606001',
-    publisherDomain: 'moneycontrol.com',
     placementId: 'moneycontrol_300x250',
-    configId: 'moneycontrol.com-version-2-testing',
-    floorCpm: '0.15',
-    endpoint: 'https://nexbid.uk/api/v1/prebid/bid'
+    configId: 'moneycontrol.com'
   }
 }
 ```
 
-## Auction Flow
+`publisherId` and `placementId` are required. `configId` is optional. The endpoint and CPM are not publisher parameters.
+
+## Auction flow
 
 ```text
 Publisher page
-  -> Prebid calls NexBid adapter
-  -> NexBid adapter calls /api/v1/prebid/bid
-  -> NexBid returns CPM + render markup
-  -> Prebid passes hb_* key-values into GAM
-  -> GAM compares NexBid with AdX/direct/other demand
-  -> If NexBid wins, Prebid renders NexBid markup
-  -> NexBid renderer loads NexBanner player
+  -> Prebid/OpenWrap calls the NexBid adapter
+  -> Adapter calls the fixed NexBid HTTPS endpoint
+  -> NexBid gateway obtains a real buyer-backed bid or returns no-bid
+  -> Prebid passes hb_* targeting into GAM
+  -> GAM compares NexBid with AdX, direct and other eligible demand
+  -> Prebid renders the creative only when NexBid wins
 ```
 
-## Testing CPM Buckets
+## Test parameters
 
-Suggested starting buckets:
-
-```text
-$0.10
-$0.15
-$0.20
-$0.30
-$0.50
-$0.75
-$1.00
+```javascript
+{
+  bidder: 'nexbid',
+  params: {
+    publisherId: 'nexbid-test',
+    placementId: 'banner-300x250',
+    configId: 'prebid-review',
+    test: true
+  }
+}
 ```
 
-Approximate India CPM mapping:
+The test flag does not produce a bid for production publisher IDs.
 
-```text
-Rs 10 CPM ~= $0.12
-Rs 15 CPM ~= $0.18
-Rs 20 CPM ~= $0.24
-Rs 25 CPM ~= $0.30
-```
+The stable Version 1 renderer is `https://nexbid.uk/nbx/render-v1.js`. The separate one-line GAM creative tag is documented in `docs/version-1-script.md`; it runs after GAM and is not a substitute for the Prebid/OpenWrap bidder entry.
+

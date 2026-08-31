@@ -2,20 +2,20 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>NexBid Prebid Example</title>
+  <title>NexBid Prebid Test</title>
   <script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></script>
-  <script async src="https://cdn.jsdelivr.net/npm/prebid.js@latest/dist/prebid.js"></script>
+  <!-- Build Prebid.js with nexbidBidAdapter and serve the resulting bundle here. -->
+  <script async src="/build/dev/prebid.js"></script>
 </head>
 <body>
-  <div id="moneycontrol_300x250" style="width:300px;height:250px"></div>
+  <div id="nexbid-test-300x250" style="width:300px;height:250px"></div>
 
   <script>
     window.googletag = window.googletag || { cmd: [] };
-    window.pbjs = window.pbjs || {};
-    pbjs.que = pbjs.que || [];
+    window.pbjs = window.pbjs || { que: [] };
 
     googletag.cmd.push(function () {
-      googletag.defineSlot('/23356218010/Moneycontrol_Banner_300', [300, 250], 'moneycontrol_300x250')
+      googletag.defineSlot('/1234567/nexbid_prebid_test', [300, 250], 'nexbid-test-300x250')
         .addService(googletag.pubads());
       googletag.pubads().disableInitialLoad();
       googletag.enableServices();
@@ -23,28 +23,25 @@
 
     pbjs.que.push(function () {
       pbjs.addAdUnits([{
-        code: 'moneycontrol_300x250',
+        code: 'nexbid-test-300x250',
         mediaTypes: {
-          banner: {
-            sizes: [[300, 250]]
-          }
+          banner: { sizes: [[300, 250]] }
         },
         bids: [{
           bidder: 'nexbid',
           params: {
-            publisherId: '2606001',
-            publisherDomain: 'moneycontrol.com',
-            placementId: 'moneycontrol_300x250',
-            configId: 'moneycontrol.com-version-2-testing',
-            floorCpm: '0.15',
-            endpoint: 'https://nexbid.uk/api/v1/prebid/bid'
+            publisherId: 'nexbid-test',
+            placementId: 'banner-300x250',
+            configId: 'prebid-review',
+            test: true
           }
         }]
       }]);
 
       pbjs.requestBids({
+        timeout: 1200,
         bidsBackHandler: function () {
-          pbjs.setTargetingForGPTAsync(['moneycontrol_300x250']);
+          pbjs.setTargetingForGPTAsync(['nexbid-test-300x250']);
           googletag.cmd.push(function () {
             googletag.pubads().refresh();
           });

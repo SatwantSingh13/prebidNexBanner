@@ -2,8 +2,11 @@
   "name": "nexbid-prebid-adapter",
   "version": "0.1.0",
   "private": true,
-  "description": "NexBid bidder adapter and renderer for Prebid.js testing.",
+  "type": "module",
+  "description": "NexBid client-side bidder adapter package for Prebid.js submission.",
   "scripts": {
-    "check": "node --check src/nexbidBidAdapter.js && node --check public/prebid-renderer.js && node --check functions/api/v1/prebid/bid.js"
+    "check": "node --check modules/nexbidBidAdapter.js && node --check public/prebid-renderer.js && node --check functions/api/v1/prebid/bid.js && node --check functions/api/v1/prebid/auction.js",
+    "test:gateway": "node --test test/server/*.test.js"
   }
 }
+
